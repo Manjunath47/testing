@@ -1,0 +1,289 @@
+
+Postgres client install in ubuntu
+#apt-get install -y postgresql-client
+
+======================================================================================================================================================
+In bastion(kubectl cp Sushma and Raghu will inform which path)
+
+kubectl cp dev/workbench2-7444c94c55-fhzbl:/tmp/apps/src/temp/1688378914820/French TCs Senegal.pdf .
+chown irmc-user:irmc-user <filename>
+
+from jenkins 
+scp -i /root/devops_node  irmc-user@10.201.166.36:/home/irmc-user/<filename>  
+
+and send the file to them in chat or email. .
+======================================================================================================================================
+For mongo backup
+Connect to Prod bastion
+sudo mongoexport --uri mongodb+srv://username:pas@live.fmk2w.mongodb.net/<dbname>?authsource=admin --collection=<collectionname>  --out=<filename> --forceTableScan
+
+sudo mongoexport --uri mongodb+srv://livewriter:bIQhkfhGNUbIbmSm@live.fmk2w.mongodb.net/mcc_fuse?authsource=admin --collection=email_in_gateway_log  --out=bs-932 --forceTableScan
+
+base3x-qa-storage
+base3x-dev_cloudbuild
+basenxt-perf-storage
+basenxt-coach-demo-storage
+basenxt-mcctest-demo-storage
+basenxt-nb-storage
+basenxt-pr-mcc-storage
+cloud-ai-platform-4250840e-6b75-4a96-b4ce-840a3eedcf22
+basenxt-test3-bucket
+basenxt-test2-bucket
+
+mongo --ssl --host uam-dev-rds.cm8auetq8bfc.eu-west-1.docdb.amazonaws.com:27017 --sslCAFile global-bundle.pem --username uamdev
+ 
+kubectl create job --from=cronjob/test test-02 -n dev
+kubectl exec -it test-02-x4ct7 --namespace=dev -c test-02 -- /bin/sh
+
+
+PostgreSQL Database Drivers From Tableau
+mongosh "mongodb+srv://dev.dbtdd.gcp.mongodb.net/" --username <username>
+
+mongo --host 10.242.208.26 --port 27017 -u admin --authenticationDatabase admin -p
+
+dev:gLKX6y6KH2BbUAaW, qa:9QmrGbDj5NJWsTkb  uamdevadmin pnFBg9jB8AlKL3feOu uamqaadmin LvflLp7z2xmV6WvG
+
+
+"url": "mongodb://uamqaadmin:LvflLp7z2xmV6WvG@mongodb/?authSource=admin"
+
+
+k8s-965@base3x-production.iam.gserviceaccount.com
+
+10.6.112.9 qa-postgres etlpostgres aYbXTZrYHre5LKIz
+
+Mongo backup role permission
+{ role: 'backup', db: 'admin' }
+db.grantRolesToUser("admin",["backup"])
+
+DL's:
+devops-dopvm
+basenxt-devopsvm
+
+========================================================================================
+
+Docker Image pull error:
+###########For docker image pull error(Error response from daemon: Get "https://registry.k8s.io/v2/": tls: failed to verify certificate: x509: certificate signed by unknown authority)
+https://stackoverflow.com/questions/50768317/docker-pull-certificate-signed-by-unknown-authority
+1. Create file /etc/docker/daemon.json
+2. copy below content 
+{
+    "insecure-registries" : ["<registry-url>:443"] ----> try without 443 also if not works
+}
+
+Ex: 
+{
+    "insecure-registries" : ["registry.k8s.io", "asia.gcr.io", "gcr.io", "public.ecr.aws"]
+}
+3. systemctl restart docker
+4. mkdir -p /etc/docker/certs.d/<registry-url>
+5. ex +’/BEGIN CERTIFICATE/,/END CERTIFICATE/p’ <(echo | openssl s_client -showcerts -connect <registry-url>:443) -scq > /etc/docker/certs.d/<registry-url>/docker_registry.crt
+
+Note: Kept 5th point in background and try to pull image.
+======================================================================================================
+To add backup role to mongo user
+db.grantRolesToUser(
+    "admin",
+    [
+      { role: "backup", db: "admin" }
+    ]
+)
+
+======================================================================================================
+1. Create chain certificate
+combine all three in one file
+1st portion is main and 2nd portion intermediate and last is root key
+Ex: cat deltaverge.crt.txt intermediate.txt root.txt > chain.txt
+
+2. Convert to base 64
+# base64 -w 0 <chain-file> > output.txt
+
+3. convert private key
+# base64 -i <key-file> > output.txt
+
+4. Edit tls.cert.yaml in all kubernetes yamls
+
+5. Apply yamls.
+
+===========================================================================================
+UAM Prod
+admin "Tuquo3Eizoo7zaiM"
+uamprodadmin "NmQ4OGUyNTEwZDBiNDQ5"
+uamprodnxpadmin "xb4TUDsTElojnLDkj0"
+
+UAM UAT
+admin "hae7Shufowei8Go"
+uamuatadmin "fahkaekoh6EijuNg"
+
+===========================================================================================
+50100194437157,HDFC0001021
+
+==========================================================================================
+For Mongo Logs sent to CLoudwatch
+1. yum install amazon-cloudwatch-agent
+2. /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+3. /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a status
+4. /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c /opt/aws/amazon-cloudwatch-agent/bin/config.json
+5. /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2  -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+6. systemctl status amazon-cloudwatch-agent
+
+=========================================================================================================
+fields @timestamp, @message
+| filter ispresent (kubernetes.container_name) and kubernetes.container_name like /archival*/
+
+============================================================================================================
+Postgres backup
+pg_dump -h 10.221.192.5 -p 5432 -U etlpostgres -d aggreko_etlReports -t sla_report_archive > file.sql
+
+==============================================================================================================
+Containers provide you with a standard way to package your application's code and dependencies into a single object.
+
+====================================================================================================================
+For Image tag check
+gcloud config set auth/disable_ssl_validation True
+gcloud config list
+
+aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 851725570746.dkr.ecr.eu-west-1.amazonaws.com
+
+https://repost.aws/knowledge-center/secondary-account-access-ecr
+
+https://app.joinsuperset.com/join/#/signup/student/jobprofiles/c10ac320-3871-4fb2-9053-d8a58b52ea18
+
+https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BdUS9K9gQQJqjv0oWepbwyg%3D%3D
+
+========================================================================================================================
+uam.wipro.com is not working due to imagepullbackoff ingress controller , I have downloaded 
+asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de to 
+851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
+
+gcloud docker -- pull  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de && docker tag  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de 851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
+docker -- push 851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
+
+docker tag  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de 851725570746.dkr.ecr.us-east-1.amazonaws.com/uam-us/prod/ingress-nginx:1
+
+====================================================================================================================================================
+Node builds get fail means.
+
+check node version in local and other env's
+Check package.json file
+
+==============================================================================================================================================================
+Renamed below
+https://github.com/WEF-DOP-TO/baseNXT_logging-framework to https://github.com/WEF-DOP-TO/UAM_logging-framework
+https://github.com/WEF-DOP-TO/baseNXT_add-ons_audit-framework/settings to https://github.com/WEF-DOP-TO/UAM_audit-framework
+
+===============================================================================================================================================================
+If "apt-update" not happening with error no PUBLIC key then run ----> sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4EB27DB2A3B88B8B ----> Replace key with error key
+
+or below one
+
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+https://analyzer-basenxtdev.system.platform.deltaverge.com
+
+gcloud config set account k8s-965@base3x-production.iam.gserviceaccount.com && gcloud container clusters get-credentials live-cluster-1 --region europe-west1 --project base3x-production
+kubectl get ns
+
+root@gcn-bnbast-pu01:~# gcloud auth list
+                  Credentialed Accounts
+ACTIVE  ACCOUNT
+        227718645124-compute@developer.gserviceaccount.com
+*       k8s-965@base3x-production.iam.gserviceaccount.com
+        manjunath.navarasala@wipro.com
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+
+root@gcn-bnbast-pu01:~#
+
+================================================================================================================
+
+================================================================================================================================
+Gcloud CLI Installation in Linux
+#curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+#tar -xf google-cloud-cli-linux-x86_64.tar.gz
+#./google-cloud-sdk/install.sh
+#./google-cloud-sdk/bin/gcloud init
+
+=====================================================================================================================================================
+
+If multiple versions has been installed and we need to select particular versions
+# update-alternatives --config java
+
+In place of java, choose other packages if requires
+
+===================================================================================================================================================
+Nexus Backup and Restore
+
+run_as_user="nexus" in nexus file
+==================================================================================================================================
+If binary installation then command should work in any shell/path means
+1. Copy the downloaded directory to /usr/lib/
+2. Create softlink with executable in downladed directory inside /usr/bin/
+3. Then also not working means check .bashrc file and remove any entry for downloaded one.
+
+
+https://docs.github.com/en/enterprise-cloud@latest/migrations/importing-source-code/using-the-command-line-to-import-source-code/importing-a-subversion-repository
+
+https://github.com/WEF-DOP-TO/baseNXT_DevOps_basenxt-scripts/tree/master/gke-sandbox
+
+Manjunath
+AWS Training
+Day to day activities of UAM, baseNXT
+Help with Azure Dev Ops and other trials
+
+Please share your certificate or failed score card to aws.competency@wipro.com and 
+cloud.academy@wipro.com
+
+https://calculator.aws/#/estimate?id=dff12fab0c16c8956eebc85536368a571de267bf
+
+================================================================================================================================================================
+After jenkins upgrade, the page will show unclock means
+
+1. Stop Jenkins service
+2. vi /lib/systemd/system/jenkins.service 
+ 
+in above file need to change jenkins home path and working directory path
+ 
+# systemctl daemon-reload
+ 
+3. Change home path in /etc/default/jenkins
+=============================================================================================================================================================
+231 -LpCGk-Dgt4
+228 - dCU+zM2gWF
+
+US:
+Username: “prodreader”
+Password: “dCU+zM2gWF”
+
+Ireland:
+Username: “prodreader”
+Password: “LpCGk-Dgt4”
+====================================================================================================================
+Issue:- error: RPC failed; HTTP 401 curl 22 The requested URL returned error: 401
+send-pack: unexpected disconnect while reading sideband packet
+fatal: the remote end hung up unexpectedly
+Everything up-to-date
+Sol: Generate new github token
+===========================================================================================================
+Update mongodb version:
+
+comment the yum exclude line in yum/repos.d/repo.mongo
+do yum update check for the mongo version in yum update (if not right version exit) and install correct version
+check version after yum update
+uncomment exclude line in yum/repos.d/repo.mongo
+
+===============================================================================================================================
+What “Back-off” Means in Kubernetes
+
+When a container keeps failing to start, Kubernetes doesn’t keep restarting it immediately. Instead, it applies a “back-off” mechanism, which increases the wait time before each restart attempt.
+
+For example, the wait time typically grows exponentially:
+10s → 20s → 40s → 80s → … (up to 5 minutes)
+
+This mechanism prevents a container that continuously fails from consuming excessive cluster resources.
+==================================================================================================================================================
+
+=======================================================================================================================================
+To View the current environment variables in linux server
+# printenv
+	
