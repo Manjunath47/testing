@@ -1,0 +1,15 @@
+node {
+    stage('Checkout') { 
+		checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@xxxxxx:xxxxxx.git']]]
+    }
+    stage('Compile') {
+        sh "/opt/gradle/latest/bin/gradle clnbld -x test --no-daemon"
+    }    
+	stage('Create Images') {
+		sh "docker build -t gcr.io/${PROJECT_NAME}/wcc-dev/polyglot:${BUILD_NUMBER} ./polyglot-core/build/Docker"
+		sh 'export HTTP_PROXY="${HTTP_PROXY}" && export HTTPS_PROXY="${HTTPS_PROXY}" && export http_proxy="${HTTP_PROXY}" && export https_proxy="${HTTPS_PROXY}" && gcloud config set project ${PROJECT_NAME} && gcloud docker -- push gcr.io/${PROJECT_NAME}/wcc-dev/polyglot:${BUILD_NUMBER}'
+    }   
+    stage('Deploy') {
+		sh 'su devuser -c \'export HTTP_PROXY="${HTTP_PROXY}" && export HTTPS_PROXY="${HTTPS_PROXY}" && export http_proxy="${HTTP_PROXY}" && export https_proxy="${HTTPS_PROXY}" && curl -G --data-urlencode "params=@$(echo "polyglot;${BUILD_NUMBER};$(date +%s);wcc-dev;" | openssl rsautl -encrypt -pubin -pkcs -inkey /xxxx.pub -out >(base64))" GET https://domain.com/kube.php\''
+    }    
+}
