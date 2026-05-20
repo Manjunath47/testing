@@ -1,0 +1,13 @@
+node {
+    stage('Checkout') { 
+		checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '${BRANCH_NAME}']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'server', url: 'xxxxxxxxxxxxxxxx']]]
+    }
+    stage('Compile') {
+env.JAVA_HOME="${tool 'Java17'}"
+sh "echo $JAVA_HOME"
+        sh "/opt/gradle/gradle8/bin/gradle clnbld -x test --no-daemon --refresh-dependencies"
+    }    
+	stage('Create Images') {
+		sh 'gcloud builds submit --project ${PROJECT_NAME} --tag gcr.io/${PROJECT_NAME}/u/d/archival-c:${BUILD_NUMBER} ./build/Docker --machine-type=n1-highcpu-32 --timeout=2h'		
+	}
+}
