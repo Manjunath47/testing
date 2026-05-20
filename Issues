@@ -2,62 +2,16 @@
 Postgres client install in ubuntu
 #apt-get install -y postgresql-client
 
-======================================================================================================================================================
-In bastion(kubectl cp Sushma and Raghu will inform which path)
-
-kubectl cp dev/workbench2-7444c94c55-fhzbl:/tmp/apps/src/temp/1688378914820/French TCs Senegal.pdf .
-chown irmc-user:irmc-user <filename>
-
-from jenkins 
-scp -i /root/devops_node  irmc-user@10.201.166.36:/home/irmc-user/<filename>  
-
-and send the file to them in chat or email. .
+==
 ======================================================================================================================================
 For mongo backup
 Connect to Prod bastion
-sudo mongoexport --uri mongodb+srv://username:pas@live.fmk2w.mongodb.net/<dbname>?authsource=admin --collection=<collectionname>  --out=<filename> --forceTableScan
+sudo mongoexport --uri mongodb+srv://username:pas@host/<dbname>?authsource=admin --collection=<collectionname>  --out=<filename> --forceTableScan
 
-sudo mongoexport --uri mongodb+srv://livewriter:bIQhkfhGNUbIbmSm@live.fmk2w.mongodb.net/mcc_fuse?authsource=admin --collection=email_in_gateway_log  --out=bs-932 --forceTableScan
 
-base3x-qa-storage
-base3x-dev_cloudbuild
-basenxt-perf-storage
-basenxt-coach-demo-storage
-basenxt-mcctest-demo-storage
-basenxt-nb-storage
-basenxt-pr-mcc-storage
-cloud-ai-platform-4250840e-6b75-4a96-b4ce-840a3eedcf22
-basenxt-test3-bucket
-basenxt-test2-bucket
-
-mongo --ssl --host uam-dev-rds.cm8auetq8bfc.eu-west-1.docdb.amazonaws.com:27017 --sslCAFile global-bundle.pem --username uamdev
  
 kubectl create job --from=cronjob/test test-02 -n dev
 kubectl exec -it test-02-x4ct7 --namespace=dev -c test-02 -- /bin/sh
-
-
-PostgreSQL Database Drivers From Tableau
-mongosh "mongodb+srv://dev.dbtdd.gcp.mongodb.net/" --username <username>
-
-mongo --host 10.242.208.26 --port 27017 -u admin --authenticationDatabase admin -p
-
-dev:gLKX6y6KH2BbUAaW, qa:9QmrGbDj5NJWsTkb  uamdevadmin pnFBg9jB8AlKL3feOu uamqaadmin LvflLp7z2xmV6WvG
-
-
-"url": "mongodb://uamqaadmin:LvflLp7z2xmV6WvG@mongodb/?authSource=admin"
-
-
-k8s-965@base3x-production.iam.gserviceaccount.com
-
-10.6.112.9 qa-postgres etlpostgres aYbXTZrYHre5LKIz
-
-Mongo backup role permission
-{ role: 'backup', db: 'admin' }
-db.grantRolesToUser("admin",["backup"])
-
-DL's:
-devops-dopvm
-basenxt-devopsvm
 
 ========================================================================================
 
@@ -104,19 +58,6 @@ Ex: cat deltaverge.crt.txt intermediate.txt root.txt > chain.txt
 
 5. Apply yamls.
 
-===========================================================================================
-UAM Prod
-admin "Tuquo3Eizoo7zaiM"
-uamprodadmin "NmQ4OGUyNTEwZDBiNDQ5"
-uamprodnxpadmin "xb4TUDsTElojnLDkj0"
-
-UAM UAT
-admin "hae7Shufowei8Go"
-uamuatadmin "fahkaekoh6EijuNg"
-
-===========================================================================================
-50100194437157,HDFC0001021
-
 ==========================================================================================
 For Mongo Logs sent to CLoudwatch
 1. yum install amazon-cloudwatch-agent
@@ -132,7 +73,7 @@ fields @timestamp, @message
 
 ============================================================================================================
 Postgres backup
-pg_dump -h 10.221.192.5 -p 5432 -U etlpostgres -d aggreko_etlReports -t sla_report_archive > file.sql
+pg_dump -h x.x.x.x -p 5432 -U xxxxx -d aggreko_etlReports -t sla_report_archive > file.sql
 
 ==============================================================================================================
 Containers provide you with a standard way to package your application's code and dependencies into a single object.
@@ -142,8 +83,6 @@ For Image tag check
 gcloud config set auth/disable_ssl_validation True
 gcloud config list
 
-aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 851725570746.dkr.ecr.eu-west-1.amazonaws.com
-
 https://repost.aws/knowledge-center/secondary-account-access-ecr
 
 https://app.joinsuperset.com/join/#/signup/student/jobprofiles/c10ac320-3871-4fb2-9053-d8a58b52ea18
@@ -151,25 +90,13 @@ https://app.joinsuperset.com/join/#/signup/student/jobprofiles/c10ac320-3871-4fb
 https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BdUS9K9gQQJqjv0oWepbwyg%3D%3D
 
 ========================================================================================================================
-uam.wipro.com is not working due to imagepullbackoff ingress controller , I have downloaded 
-asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de to 
-851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
 
-gcloud docker -- pull  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de && docker tag  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de 851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
-docker -- push 851725570746.dkr.ecr.eu-west-1.amazonaws.com/uam/prod/ingress-nginx:1
-
-docker tag  asia.gcr.io/k8s-artifacts-prod/ingress-nginx/controller@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de 851725570746.dkr.ecr.us-east-1.amazonaws.com/uam-us/prod/ingress-nginx:1
 
 ====================================================================================================================================================
 Node builds get fail means.
 
 check node version in local and other env's
 Check package.json file
-
-==============================================================================================================================================================
-Renamed below
-https://github.com/WEF-DOP-TO/baseNXT_logging-framework to https://github.com/WEF-DOP-TO/UAM_logging-framework
-https://github.com/WEF-DOP-TO/baseNXT_add-ons_audit-framework/settings to https://github.com/WEF-DOP-TO/UAM_audit-framework
 
 ===============================================================================================================================================================
 If "apt-update" not happening with error no PUBLIC key then run ----> sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4EB27DB2A3B88B8B ----> Replace key with error key
@@ -178,22 +105,15 @@ or below one
 
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
-https://analyzer-basenxtdev.system.platform.deltaverge.com
 
-gcloud config set account k8s-965@base3x-production.iam.gserviceaccount.com && gcloud container clusters get-credentials live-cluster-1 --region europe-west1 --project base3x-production
 kubectl get ns
 
 root@gcn-bnbast-pu01:~# gcloud auth list
-                  Credentialed Accounts
-ACTIVE  ACCOUNT
-        227718645124-compute@developer.gserviceaccount.com
-*       k8s-965@base3x-production.iam.gserviceaccount.com
-        manjunath.navarasala@wipro.com
+
 
 To set the active account, run:
     $ gcloud config set account `ACCOUNT`
 
-root@gcn-bnbast-pu01:~#
 
 ================================================================================================================
 
@@ -222,9 +142,6 @@ If binary installation then command should work in any shell/path means
 3. Then also not working means check .bashrc file and remove any entry for downloaded one.
 
 
-https://docs.github.com/en/enterprise-cloud@latest/migrations/importing-source-code/using-the-command-line-to-import-source-code/importing-a-subversion-repository
-
-https://github.com/WEF-DOP-TO/baseNXT_DevOps_basenxt-scripts/tree/master/gke-sandbox
 
 Manjunath
 AWS Training
@@ -248,16 +165,7 @@ in above file need to change jenkins home path and working directory path
  
 3. Change home path in /etc/default/jenkins
 =============================================================================================================================================================
-231 -LpCGk-Dgt4
-228 - dCU+zM2gWF
 
-US:
-Username: “prodreader”
-Password: “dCU+zM2gWF”
-
-Ireland:
-Username: “prodreader”
-Password: “LpCGk-Dgt4”
 ====================================================================================================================
 Issue:- error: RPC failed; HTTP 401 curl 22 The requested URL returned error: 401
 send-pack: unexpected disconnect while reading sideband packet
