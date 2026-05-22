@@ -65,3 +65,12 @@ identity.json:
      }
    }
 }
+
+
+======================================================backup============================================
+# sh /var/tableau-backup.sh
+#!/bin/sh
+backup_path="/tableau-data/tableau/data/tabsvc/files/backups"
+##su - tsmadmin -c "rm -rf $backup_path/ts_backup* ; tsm maintenance backup --file ts_backup -d ; gsutil cp $backup_path/ts_backup* gs://tableau-server-backup-prod
+rm -rf $backup_path/ts_backup*
+su - tsmadmin -c "tsm maintenance backup --file ts_backup -d ; gsutil cp $backup_path/ts_backup* gs://xxxxxx-server-xxxxxx-xxxx"
