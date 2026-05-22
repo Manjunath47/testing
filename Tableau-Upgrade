@@ -1,0 +1,37 @@
+1. Backup & transfer
+	tsm maintenance backup --file ts_backup -d
+	gsutil cp ts_backup* gs://backup-tableau-server
+2. Repository Update & Upgrade
+	apt-get update
+	apt-get upgrade
+3. Download & Install local .deb package
+  wget https://downloads.tableau.com/esdalt/2023.3.14/tableau-server-2023-3-14_amd64.deb
+	gdebi -n tableau-server-<version>_amd64.deb
+4. Tableau server stop
+	su - tsmadmin
+	tsmadmin stop
+	tsmadmin status
+5. Upgrade Tableau server
+	run as root user
+	# /opt/tableau/tableau_server/packages/scripts.<latest-version>/upgrade-tsm --accepteula
+6. Change ownership
+	chown -R tableau:tableau /var/opt/tableau
+7. Download backup file from gcp storage
+	gsutil cp <gcp storage bucket url>/file_name   /tableau-data/tableau/data/tabsvc/files/backups/<file_name>
+8. Change ownership of backup file
+	chown tableau: /tableau-data/tableau/data/tabsvc/files/backups/<file_name>
+9. Restore backup & start tableau server
+	su - tsmadmin
+	cd /tableau-data/tableau/data/tabsvc/files/backups/
+	tsm maintenance restore --file <file_name>
+	tsm start
+	tsm status
+10. Check current version and remove old version
+	grep TABLEAU_SERVER_DATA_DIR_VERSION /etc/opt/tableau/tableau_server/environment.bash (we should get latest version as output here) 
+	apt-get purge <old tableau version>
+	ex: apt-get purge tableau-server-20231.23.0316.0857
+
+Troubleshoot:-
+Error: 'Tableau Server Gateway 0' is in an error state.
+Solution: #setcap CAP_NET_BIND_SERVICE=+eip /opt/tableau/tableau_server/packages/apache.20233.25.0106.1650/bin/httpd
+Ref: https://community.tableau.com/s/question/0D54T00000KfqspSAB/tableau-server-gateway-error-server-is-failing-to-start-after-upgrade
