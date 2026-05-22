@@ -1,0 +1,67 @@
+adduser tableau
+usermod -aG tsmadmin tableau
+usermod -aG tableau tsmadmin
+gdebi -n tableau-server-2023-3-14_amd64.deb
+cd /opt/tableau/tableau_server/packages/scripts.20233.25.0106.1650/
+mkdir /tableau-data/tableau
+chown -R tableau:tableau /tableau-data/tableau
+/initialize-tsm --accepteula --activation-service -d /tableau-data/tableau
+tsm status	
+tsm licenses activate -k xxxxx-2xxx-xxxx-xxxx-xxxx
+tsm license list	
+vi registration_file.json	
+tsm register --file registration_file.json	
+vi identity.json	
+tsm settings import -f identity.json	
+tsm pending-changes apply	
+tsm status -v	
+tsm initialize --start-server --request-timeout 1800	
+tsm status -v	
+tabcmd initialuser --server http://localhost --username	'tableauadmin'
+tsm configuration get -k basefilepath.backuprestore
+cd /tableau-data/tableau/data/tabsvc/files/backups/	
+tsm maintenance restore --file ts_backup-2025-03-03.tsbak
+tsm status -v	
+tsm start
+
+POSTGRES SQL COnnector
+1. Download the postgresql-42.3.3.jar jar.
+2. Place it under /opt/tableau/tableau_driver/jdbc (created folders tableau driver and jdbc)
+3. Restart tsm
+4. Download PostgreSQL Database Drivers From Tableau
+Install PostgreSQL Drivers for Tableau Server Linux (Ubuntu) | Zuar
+wget https://downloads.tableau.com/drivers/linux/deb/tableau-driver/tableau-postgresql-odbc_09.06.0501_amd64.deb
+gdebi tableau-postgresql-odbc_09.06.0501_amd64.deb
+5. Change ownership to tableau to /opt/tableau
+6. restart tsm
+
+#/dev/sdb /tableau-data ext4 rw
+==================================================================================================================================
+registration_file.json:
+{
+    "first_name" : "xxxxx",
+    "last_name" : "xxx",
+    "phone" : "xxxxxxx",
+    "email" : "xxxxx",
+    "company" : "xxxxxxxxxx",
+    "industry" : "Finance",
+    "company_employees" : "500",			
+    "department" : "Engineering",
+    "title" : "Senior Manager",
+    "city" : "Bangalore",
+    "state" : "KA",
+    "zip" : "560035",
+    "country" : "INDIA",
+    "opt_in" : "true",
+    "eula" : "true"
+}
+
+identity.json:
+{
+  "configEntities": {
+    "identityStore": {
+       "_type": "identityStoreType",
+       "type": "local"
+     }
+   }
+}
